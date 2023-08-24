@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import IletisimFormu from "./IletisimFormu";
+import Goruntule from "./Goruntule";
 
 //1.test yapıldı
 test("hata olmadan render ediliyor", () => {
@@ -27,11 +28,32 @@ test("Kullanıcı adını 5 karakterden az girdiğinde bir hata mesajı render e
   expect(hataMesaji).toHaveTextContent("Hata: ad en az 5 karakter olmalıdır.");
 });
 
-//4.test
-test("kullanıcı inputları doldurmadığında ÜÇ hata mesajı render ediliyor.", async () => {});
+//4.test yapıldı
+test("kullanıcı inputları doldurmadığında ÜÇ hata mesajı render ediliyor.", async () => {
+  render(<IletisimFormu />);
+
+  const test4 = screen.getByText("Gönder");
+  fireEvent.click(test4);
+
+  const isimHatasi = screen.getByTestId("error-ad");
+  expect(isimHatasi).toBeInTheDocument();
+  expect(isimHatasi).toHaveTextContent("Hata: ad en az 5 karakter olmalıdır.");
+
+  const soyadHatasi = screen.getByTestId("error-soyad");
+  expect(soyadHatasi).toBeInTheDocument();
+  expect(soyadHatasi).toHaveTextContent("Hata: soyad gereklidir");
+
+  const mailHatasi = screen.getByTestId("error-mail");
+  expect(mailHatasi).toBeInTheDocument();
+  expect(mailHatasi).toHaveTextContent(
+    "Hata: email geçerli bir email adresi olmalıdır."
+  );
+});
 
 //5.test
-test("kullanıcı doğru ad ve soyad girdiğinde ama email girmediğinde BİR hata mesajı render ediliyor.", async () => {});
+test("kullanıcı doğru ad ve soyad girdiğinde ama email girmediğinde BİR hata mesajı render ediliyor.", async () => {
+  render(<IletisimFormu />);
+});
 
 //6. test yapıldı
 test('geçersiz bir mail girildiğinde "email geçerli bir email adresi olmalıdır." hata mesajı render ediliyor', async () => {
@@ -77,7 +99,11 @@ test('soyad girilmeden gönderilirse "soyad gereklidir." mesajı render ediliyor
 });
 
 //8.test
-test("ad,soyad, email render ediliyor. mesaj bölümü doldurulmadığında hata mesajı render edilmiyor.", async () => {});
+test("ad,soyad, email render ediliyor. mesaj bölümü doldurulmadığında hata mesajı render edilmiyor.", async () => {
+  render(<IletisimFormu />);
+});
 
 //9.test
-test("form gönderildiğinde girilen tüm değerler render ediliyor.", async () => {});
+test("form gönderildiğinde girilen tüm değerler render ediliyor.", async () => {
+  render(<IletisimFormu />);
+});
