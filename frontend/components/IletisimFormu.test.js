@@ -1,7 +1,6 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import userEvent from "@testing-library/user-event";
 import IletisimFormu from "./IletisimFormu";
 
 test("hata olmadan render ediliyor", () => {
@@ -13,7 +12,18 @@ test("iletişim formu headerı render ediliyor", () => {
   expect(test1).toBeInTheDocument();
 });
 
-test("kullanıcı adını 5 karakterden az girdiğinde BİR hata mesajı render ediyor.", async () => {});
+test("Kullanıcı adını 5 karakterden az girdiğinde bir hata mesajı render ediliyor.", () => {
+  render(<IletisimFormu />);
+  const test2 = screen.getByLabelText("Ad*");
+
+  fireEvent.change(test2, { target: { value: "John" } });
+
+  const errorElement = screen.getByTestId("error1");
+  expect(errorElement).toBeInTheDocument();
+  expect(errorElement).toHaveTextContent(
+    "Hata: ad en az 5 karakter olmalıdır."
+  );
+});
 
 test("kullanıcı inputları doldurmadığında ÜÇ hata mesajı render ediliyor.", async () => {});
 
