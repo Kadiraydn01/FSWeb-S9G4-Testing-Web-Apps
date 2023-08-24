@@ -136,6 +136,40 @@ test("ad,soyad, email render ediliyor. mesaj bölümü doldurulmadığında hata
 });
 
 //9.test
-test("form gönderildiğinde girilen tüm değerler render ediliyor.", async () => {
+test("form gönderildiğinde girilen tüm değerler render ediliyor.", () => {
   render(<IletisimFormu />);
+
+  // Ad, soyad, email ve mesajı doldurarak hepsine bir değer atıyorum.
+  //Tabi ki hepsi fireEvent ile bir simülasyon gerçekten atanmıyor
+  const adDegeri = screen.getByLabelText("Ad*");
+  fireEvent.change(adDegeri, { target: { value: "Kadir" } });
+
+  const soyadDegeri = screen.getByLabelText("Soyad*");
+  fireEvent.change(soyadDegeri, { target: { value: "Aydin" } });
+
+  const emailDegeri = screen.getByLabelText("Email*");
+  fireEvent.change(emailDegeri, { target: { value: "kadir@hotmail.com" } });
+
+  const mesajDegeri = screen.getByLabelText("Mesaj");
+  fireEvent.change(mesajDegeri, {
+    target: { value: "Bana anlat bana! Millet sana kanalize mi olacak" },
+  });
+
+  const test9 = screen.getByText("Gönder");
+  fireEvent.click(test9);
+
+  // Tüm girilen değerleri kontrol ederek doğru render edilip edilmediğini kontrol ediyorum.
+  const sonAd = screen.getByTestId("firstnameDisplay");
+  expect(sonAd).toHaveTextContent("Ad: Kadir");
+
+  const sonSoyad = screen.getByTestId("lastnameDisplay");
+  expect(sonSoyad).toHaveTextContent("Soyad: Aydin");
+
+  const sonEmail = screen.getByTestId("emailDisplay");
+  expect(sonEmail).toHaveTextContent("Email: kadir@hotmail.com");
+
+  const sonMesaj = screen.getByTestId("messageDisplay");
+  expect(sonMesaj).toHaveTextContent(
+    "Mesaj: Bana anlat bana! Millet sana kanalize mi olacak"
+  );
 });
