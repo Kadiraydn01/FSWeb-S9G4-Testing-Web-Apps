@@ -3,30 +3,37 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import IletisimFormu from "./IletisimFormu";
 
+//1.test yapıldı
 test("hata olmadan render ediliyor", () => {
   render(<IletisimFormu />);
 });
+
+//2.test yapıldı
 test("iletişim formu headerı render ediliyor", () => {
   render(<IletisimFormu />);
   const test2 = screen.getByText("İletişim Formu");
   expect(test2).toBeInTheDocument();
 });
 
+//3.test yapıldı
 test("Kullanıcı adını 5 karakterden az girdiğinde bir hata mesajı render ediliyor.", () => {
   render(<IletisimFormu />);
   const test3 = screen.getByLabelText("Ad*");
 
-  fireEvent.change(test3, { target: { value: "John" } });
+  fireEvent.change(test3, { target: { value: "Ali" } });
 
   const hataMesaji = screen.getByTestId("error-ad");
   expect(hataMesaji).toBeInTheDocument();
   expect(hataMesaji).toHaveTextContent("Hata: ad en az 5 karakter olmalıdır.");
 });
 
+//4.test
 test("kullanıcı inputları doldurmadığında ÜÇ hata mesajı render ediliyor.", async () => {});
 
+//5.test
 test("kullanıcı doğru ad ve soyad girdiğinde ama email girmediğinde BİR hata mesajı render ediliyor.", async () => {});
 
+//6. test yapıldı
 test('geçersiz bir mail girildiğinde "email geçerli bir email adresi olmalıdır." hata mesajı render ediliyor', async () => {
   render(<IletisimFormu />);
 
@@ -45,11 +52,20 @@ test('geçersiz bir mail girildiğinde "email geçerli bir email adresi olmalıd
   });
 });
 
+//7.test yapıldı
 test('soyad girilmeden gönderilirse "soyad gereklidir." mesajı render ediliyor', async () => {
   render(<IletisimFormu />);
 
   const test7 = screen.getByLabelText("Soyad*");
 
+  // Burada fireEvent ile bir simülasyon oluşturuyoruz.
+  //Burada change ile öncelikle birşeyleri değiştirmemiz gerektiğini görüyoruz.
+  //Sonrasında değişecek değer olarak bilgisini çektiğimiz test7 yi kullanıyoruz.
+  //Sonra burada target olarak value değerini alıyoruz ve istediğimiz bir değeri change ediyoruz.
+  //Burada Soyad kısmına birşey yazmamasını istediğimiz için boş değer girdik.
+  //Böylece simüle ederek test ediyor.
+  //Sonrasında yine simüle ederek  "Gönder" butonuna click yapıyor.
+  //await waitFor ile hata mesajının dönmesini bekliyoruz ve içine assertlerimizi yazıyoruz.
   fireEvent.change(test7, { target: { value: "" } });
 
   fireEvent.click(screen.getByText("Gönder"));
@@ -59,6 +75,9 @@ test('soyad girilmeden gönderilirse "soyad gereklidir." mesajı render ediliyor
     expect(hataMesaji1).toHaveTextContent("Hata: soyad gereklidir");
   });
 });
+
+//8.test
 test("ad,soyad, email render ediliyor. mesaj bölümü doldurulmadığında hata mesajı render edilmiyor.", async () => {});
 
+//9.test
 test("form gönderildiğinde girilen tüm değerler render ediliyor.", async () => {});
