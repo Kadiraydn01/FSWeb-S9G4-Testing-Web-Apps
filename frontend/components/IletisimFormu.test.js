@@ -6,11 +6,12 @@ import IletisimFormu from "./IletisimFormu";
 
 test("hata olmadan render ediliyor", () => {
   render(<IletisimFormu />);
-  const test1 = screen.getByText(/gönder/i);
+});
+test("iletişim formu headerı render ediliyor", () => {
+  render(<IletisimFormu />);
+  const test1 = screen.getByText("İletişim Formu");
   expect(test1).toBeInTheDocument();
 });
-
-test("iletişim formu headerı render ediliyor", () => {});
 
 test("kullanıcı adını 5 karakterden az girdiğinde BİR hata mesajı render ediyor.", async () => {});
 
