@@ -131,7 +131,9 @@ test("ad,soyad, email render ediliyor. mesaj bölümü doldurulmadığında hata
   const emailBilgi = screen.getByLabelText("Email*");
   expect(emailBilgi).toBeInTheDocument();
 
-  const mesajBilgi = screen.queryByTestId("error-mesaj"); // query kullanmanın sebebi bir hata mesajı vermediği için getByTestId ile test başarısız olacakken query ile null döndürüp testi geçmesini sağlıyor.
+  //  query kullanmanın sebebi bir hata mesajı vermediği için
+  //  getByTestId ile test başarısız olacakken query ile null döndürüp testi geçmesini sağlıyor.
+  const mesajBilgi = screen.queryByTestId("error-mesaj");
   expect(mesajBilgi).toBeNull();
 });
 
