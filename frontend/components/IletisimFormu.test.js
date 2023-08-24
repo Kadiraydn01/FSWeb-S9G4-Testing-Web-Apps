@@ -118,9 +118,21 @@ test('soyad girilmeden gönderilirse "soyad gereklidir." mesajı render ediliyor
   });
 });
 
-//8.test
+//8.test yapıldı
 test("ad,soyad, email render ediliyor. mesaj bölümü doldurulmadığında hata mesajı render edilmiyor.", async () => {
   render(<IletisimFormu />);
+  const test8 = screen.getByText("Gönder");
+  fireEvent.click(test8);
+
+  const adBilgi = screen.getByLabelText("Ad*");
+  expect(adBilgi).toBeInTheDocument();
+  const soyadBilgi = screen.getByLabelText("Soyad*");
+  expect(soyadBilgi).toBeInTheDocument();
+  const emailBilgi = screen.getByLabelText("Email*");
+  expect(emailBilgi).toBeInTheDocument();
+
+  const mesajBilgi = screen.queryByTestId("error-mesaj"); // query kullanmanın sebebi bir hata mesajı vermediği için getByTestId ile test başarısız olacakken query ile null döndürüp testi geçmesini sağlıyor.
+  expect(mesajBilgi).toBeNull();
 });
 
 //9.test
